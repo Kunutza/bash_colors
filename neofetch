@@ -4456,7 +4456,6 @@ strip_sequences() {
 
 set_colors() {
     c1="$(color "$1")${ascii_bold}"
-    echo "$c1"
     c2="$(color "$2")${ascii_bold}"
     c3="$(color "$3")${ascii_bold}"
     c4="$(color "$4")${ascii_bold}"
