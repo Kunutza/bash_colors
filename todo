@@ -1,0 +1,19 @@
+
+
+- OS: Ubuntu MATE 22.04.2 LTS x86_64 
+- Host: MS-7C79 1.0 
+- Kernel: 5.15.0-76-generic 
+- Uptime: 47 mins 
+- Packages: 3406 (dpkg), 18 (flatpak), 25 (snap) 
+- Shell: bash 5.1.16 
+- Resolution: 1920x1080 
+- DE: MATE 1.26.0 
+- WM: Metacity (Marco) 
+- Theme: Yaru-MATE-light [GTK2/3] 
+- Icons: Yaru-MATE-light [GTK2/3] 
+- Terminal: mate-terminal 
+- Terminal Font: RobotoMono Nerd Font 13 
+- CPU: 11th Gen Intel i7-11700KF (16) @ 5.000GHz 
+- GPU: NVIDIA GeForce GTX 1050 Ti 
+- Memory: 1990MiB / 15871MiB 
+Also find out why screenfetch-dev show different memory
