@@ -1,0 +1,50 @@
+#!/bin/bash
+
+
+# Speed up script by not using unicode.
+LC_ALL=C
+LANG=C
+
+# Colors
+reset='\e[0m'
+ascii_bold='\e[1m'
+
+color() {
+    case $1 in
+        [0-6])    printf '%b\e[3%sm'   "$reset" "$1" ;;
+        7 | "fg") printf '\e[37m%b'    "$reset" ;;
+        *)        printf '\e[38;5;%bm' "$1" ;;
+    esac
+}
+
+set_colors() {
+    c1="$(color "$1")${ascii_bold}"
+    c2="$(color "$2")${ascii_bold}"
+    c3="$(color "$3")${ascii_bold}"
+    c4="$(color "$4")${ascii_bold}"
+    c5="$(color "$5")${ascii_bold}"
+    c6="$(color "$6")${ascii_bold}"
+}
+
+print_ascii() {
+    # Colors.
+    # If set from set_colors, ${c1} print color of c1, ${c2} of c2...
+    ascii_data="${ascii_data//\$\{c1\}/$c1}"
+    ascii_data="${ascii_data//\$\{c2\}/$c2}"
+    ascii_data="${ascii_data//\$\{c3\}/$c3}"
+    ascii_data="${ascii_data//\$\{c4\}/$c4}"
+    ascii_data="${ascii_data//\$\{c5\}/$c5}"
+    ascii_data="${ascii_data//\$\{c6\}/$c6}"
+
+    printf '%b\n' "$ascii_data${reset}"
+    LC_ALL=C
+}
+
+
+set_colors 1 2 3 4 5 6
+read -rd '' ascii_data <<'EOF'
+${c1}1 ${c2}2 ${c3}3 ${c4}4 ${c5}5 ${c6}6
+${c3}TEST
+EOF
+
+print_ascii
