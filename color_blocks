@@ -1,0 +1,68 @@
+#!/bin/bash
+
+
+# Speed up script by not using unicode.
+LC_ALL=C
+LANG=C
+
+# Cols
+block_width=3
+block_height=1
+block_range=(0 15)
+# col_offset=7       - Leave 7 spaces then print the colors
+# col_offset=-1       - Has no offset
+# col_offset="auto"  - There is no offset
+col_offset=5
+
+get_cols() {
+    local blocks blocks2 cols
+
+    # Convert the width to space chars.
+    printf -v block_width "%${block_width}s"
+
+    # Generate the string.
+    for ((block_range[0]; block_range[0]<=block_range[1]; block_range[0]++)); do
+        case ${block_range[0]} in
+            [0-7])
+                printf -v blocks  '%b\e[3%bm\e[4%bm%b' \
+                    "$blocks" "${block_range[0]}" "${block_range[0]}" "$block_width"
+            ;;
+
+            *)
+                printf -v blocks2 '%b\e[38;5;%bm\e[48;5;%bm%b' \
+                    "$blocks2" "${block_range[0]}" "${block_range[0]}" "$block_width"
+            ;;
+        esac
+    done
+
+    # Convert height into spaces.
+    printf -v block_spaces "%${block_height}s"
+
+    # Convert the spaces into rows of blocks.
+    cols+="${block_spaces// /\[mnl${blocks}}"
+    cols+="${block_spaces// /\[mnl${blocks2}}"
+    cols+="[mnl"
+
+
+    # Add newlines to the string.
+    case $col_offset in
+        "auto")
+            cols=${cols%%nl}
+            cols=${cols//nl/
+            } ;;
+        *)
+            cols=${cols%%nl}
+            cols=${cols//nl/
+            $(printf '\e[%bC' "$col_offset")} ;;
+    esac
+
+    case $col_offset in
+        "auto") printf '\e[%b\n\n' "${cols}" ;;
+        #"auto") printf '\n\e[%bC%b\n\n' "$text_padding" "${zws}${cols}" ;;
+        *) printf '\e[%bC%b\n\n' "$col_offset" "${cols}" ;;
+    esac
+
+    unset -v blocks blocks2 cols
+}
+
+get_cols
